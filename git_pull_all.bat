@@ -6,12 +6,13 @@ Set _fYELLOW=[93m
 set _fRED=[91m
 Set _RESET=[0m
 goto :Start
-REM Function to check if a folder contains a Git repository
+REM Function to check if a folder contains a Git repository and a remote is set
 :CheckGitRepo
 pushd %1
-if exist ".git" (
+
+ if exist ".git" for /f "delims=" %%R in ('git remote') do (
     echo "%_fYELLOW%Fetching changes in: %CD%%_RESET%"
-    git fetch --all -vvv 2>nul
+    git fetch --all  2>nul
     if errorlevel 1 (
         echo "%_fRED%Failed to fetch changes in: %CD%%_RESET%"
         popd
